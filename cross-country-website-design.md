@@ -32,44 +32,41 @@ A web application to track and display cross-country team performance, race resu
 ## Technical Architecture
 
 ### Frontend
-- **Framework**: React.js with TypeScript
+- **Framework**: Vue.js with TypeScript
 - **Styling**: Tailwind CSS for responsive design
 - **Charts**: Chart.js for data visualization
-- **State Management**: React Context API
 
 ### Backend
-- **Framework**: Spring Boot (Java)
+- **Framework**: Spring Boot (Java 21)
 - **Database**: PostgreSQL
 - **Authentication**: Spring Security with JWT
 - **API**: RESTful endpoints
 
 ### Deployment
+- **Orchestration**: AWS EKS
 - **Frontend**: AWS S3 + CloudFront
-- **Backend**: AWS Elastic Beanstalk
 - **Database**: AWS RDS PostgreSQL
-- **File Storage**: AWS S3 for images
+- **File Storage**: AWS S3 for images, imported files
 
 ## Database Schema
 
 ### Core Tables
+- `races` - Race events, divisions and metadata including date, location,
+- `results` - Race results with individual names, time, individual place and team place
 - `athletes` - Runner information and details
-- `races` - Race events and metadata
-- `results` - Individual race results
-- `teams` - Team information
-- `seasons` - Season tracking
+- `teams` - Team information with school, race year
 
 ### Key Relationships
+- Teams participate in multiple races per season
 - Athletes belong to teams
 - Results link athletes to races
-- Teams participate in multiple races per season
 
 ## User Roles
 
 ### Admin (Coach/Team Manager)
 - Full CRUD operations on all data
-- Race result entry and management
-- Team roster management
-- Statistics reporting
+- Race result entry and management including import
+- Team roster management and import
 
 ### Viewer (Parents/Students)
 - Read-only access to public information
@@ -79,53 +76,52 @@ A web application to track and display cross-country team performance, race resu
 ## Key Pages
 
 ### 1. Home Dashboard
-- Upcoming races
-- Recent results highlights
-- Team announcements
-- Quick stats overview
+- List Recently imported races
+- Search for Individual runners
+- Search for Team pages
+- Create/Import Races and Results
+- If logged in admin, link to admin pages
 
-### 2. Team Roster
-- Athlete cards with photos
-- Contact information
-- Individual statistics links
+### 2. Individual Results
+- Name, school, grade of runner
+- personal best time, time trend
+- table of race results: date, meet, division, individual place, quintile, time, time vs best, time vs previous
+- 3D distribution chart of division times, highlighting individual among division bell curve.
 
-### 3. Race Results
-- Searchable/filterable results table
-- Race details and conditions
-- Team scoring breakdown
+### 3. Team Results
+- Name of school
+- table of race results sorted by date then runners by team place
+- 3D distribution chart of race bell curve with highlights for team individuals
 
-### 4. Statistics
-- Performance trends
-- Personal records tracking
-- Team comparisons
-- State qualifying times
-
-### 5. Schedule
-- Race calendar
-- Practice schedule
-- Important dates and deadlines
+### 4. Admin / Import data
+- Data entry of races and divisions
+- Data entry of division results
+- Import Race results: CSV initially.  Eventually URL or paste.
+- Extrapolate / Extract teams/divisions/runners from race results
 
 ## Data Requirements
 
 ### Race Results Data
+- meet name, date, location, distance
+- meet division
+- weather conditions
 - Runner name and grade
-- Race time and placement
-- Race distance and course
-- Weather conditions
-- Team scores
+- runner time, individual place, team place
 
 ### Athlete Information
-- Name, grade, graduation year
-- Contact information
-- Emergency contacts
-- Medical information (private)
-- Photo and bio
+- Name, grade (9-12)
+- School
+
+### Team Information
+- school name
+- school size (5A-1A)
+- conference afiliation
 
 ## Security Considerations
 - Input validation and sanitization
 - Secure authentication for admin functions
-- Privacy controls for athlete information
 - HTTPS encryption for all communications
+- Privacy controls for athlete information
 
 ## Performance Requirements
 - Page load times under 3 seconds
@@ -136,19 +132,18 @@ A web application to track and display cross-country team performance, race resu
 ## Future Enhancements
 - Mobile app development
 - Integration with timing systems
-- Social media sharing features
-- Alumni tracking and records
-- Multi-school district support
+- Email individual results
+- Export individual or team results as PDF
 
 ## Implementation Timeline
 
-### Phase 1 (4 weeks)
+### Phase 1
 - Basic team roster and athlete profiles
 - Simple race results entry
 - Core navigation and layout
 
-### Phase 2 (3 weeks)
-- Statistics dashboard
+### Phase 2
+- Statistics: quintiles and distribution charting
 - Advanced search and filtering
 - User authentication system
 
@@ -158,9 +153,9 @@ A web application to track and display cross-country team performance, race resu
 - Testing and deployment
 
 ## Success Metrics
-- User engagement and page views
 - Data accuracy and completeness
-- Coach/admin satisfaction with management tools
+- User engagement and page views
+- Individual and Coach satisfaction of insights
 - Parent/student usage of viewing features
 
 ## Maintenance Plan
